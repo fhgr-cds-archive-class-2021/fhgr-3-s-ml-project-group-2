@@ -31,6 +31,10 @@ The dataset used for this project is available on kaggle: [Link](https://www.kag
 elevator have ( 1 ) or not have elevator( 0 )
 - fiveYearsProperty: if the owner have the - property for less than 5 years,
 
+## Column 'floor'
+This column contains two informations -> one numeric value and chinese characters.
+We have to investiagte and split thoose two informations.
+
 # Visualizations
 In this paragraph we look at some visualizations of the data.
 ## Map visualization of price
