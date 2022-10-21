@@ -11,7 +11,7 @@ st.set_page_config(layout="wide")  # Page layout
 with open(CSS_PATH) as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-@st.cache  # Enable caching of data
+@st.cache(allow_output_mutation=True)  # Enable caching of data
 def load_data(DATA_PATH, sep, encoding):  # Load data to dataframe and return it
     if os.path.exists(DATA_PATH) and encoding !="" and sep != "":
         data = pd.read_csv(DATA_PATH, sep=sep, encoding=encoding)
