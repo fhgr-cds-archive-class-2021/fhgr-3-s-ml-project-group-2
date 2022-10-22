@@ -1,0 +1,34 @@
+beijingMap = Image.open(r"content/Better_Crop.png")
+beijingScatter = px.scatter(x=data["Lng"], y=data["Lat"], color=data["price"], width=808.5, height=1002.5, labels={'x': '', 'y': ''}, color_continuous_scale=px.colors.sequential.Plasma)
+beijingScatter.update_xaxes(range=[116.06, 116.74], side="top", visible=False)
+beijingScatter.update_yaxes(range=[39.62, 40.26], visible=False)
+beijingScatter.update_layout(title={
+    'text': f"Beijing",
+    'x': 0.5,
+    'y': 0.97,
+    'xanchor': 'center',
+    'yanchor': 'top',
+    'font_size': 24
+})
+
+beijingScatter.add_layout_image(  
+    # background
+    dict(
+        x=0,
+        sizex=1,
+        y=1,
+        sizey=1,
+        xanchor="left",
+        yanchor="top",
+        xref="paper",
+        yref="paper",
+        opacity=0.95,
+        layer="below",
+        sizing="stretch",
+        source=beijingMap)
+)
+
+beijingScatter.layout.xaxis.fixedrange = True
+beijingScatter.layout.yaxis.fixedrange = True
+
+beijingScatter.show()
