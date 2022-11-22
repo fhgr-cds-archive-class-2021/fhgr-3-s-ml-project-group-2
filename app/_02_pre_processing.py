@@ -3,8 +3,7 @@ from _functions import *
 # standard libraries
 from typing import Tuple
 
-# data handling and visualization
-import matplotlib.pyplot as plt
+# data handling
 import pandas as pd
 import numpy as np
 from scipy.stats import shapiro
