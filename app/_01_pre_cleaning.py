@@ -56,6 +56,6 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
 
 
     #Write csv
-    df.to_csv(path_or_buf='data/01_pre_cleaned.csv', sep=';')
+    df.to_csv(path_or_buf='data/01_pre_cleaned.csv', sep=';', index=False)
 
     return df
