@@ -7,6 +7,9 @@ import numpy as np
 pre_cleaned = pd.read_csv(os.path.join("data", "01_pre_cleaned.csv"), sep=';')
 #print(pre_cleaned.isnull().sum())
 
+df_test = createYearPeriods(pre_cleaned, columnName="constructionTime", periodLength=20)
+print(df_test.constructionTimePeriod.unique())
+
 train = pd.read_csv('data/02_train.csv', sep=';')
 test = pd.read_csv('data/02_test.csv', sep=';')
 
