@@ -1,7 +1,7 @@
 import pandas as pd
 
 def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
-
+    
     #drop usless columns
     df = original_data.drop(['url', 'id', 'Cid', 'DOM', 'price', 'followers'], axis=1)
 
@@ -24,14 +24,14 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
 
     #traslate chinese and fill the translation in a new column
     translationDict = {}
-    translationDict["高 "] = 1 #"High"
-    translationDict["中 "] = 2 #"Medium"
-    translationDict["底 "] = 3 #"Bottom"
-    translationDict["低 "] = 4 #"Low"
-    translationDict["顶 "] = 5 #"Top"
-    translationDict["未知 "] = 6 #"Unknown"
-    translationDict["钢混结构"] = 7 #"Steel-composite construction"
-    translationDict["混合结构"] = 8 #"Hybrid structure"
+    translationDict["高 "] = "High"
+    translationDict["中 "] = "Medium"
+    translationDict["底 "] = "Bottom"
+    translationDict["低 "] = "Low"
+    translationDict["顶 "] = "Top"
+    translationDict["未知 "] = "Unknown"
+    translationDict["钢混结构"] = "Steel-composite construction"
+    translationDict["混合结构"] = "Hybrid structure"
 
     original_data['floorType'] = original_data['floor'].str.replace('\d+', '')  # extract chinese characters (everything but numbers)
     original_data["floor"] = original_data.floor.str.extract('(\d+)')  # extract only numbers
@@ -39,6 +39,7 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
     for index_label, row_series in original_data.iterrows():
         # For each row update the 'floorType' value to it's translation
         original_data.at[index_label , 'floorType'] = translationDict[row_series['floorType']]
+
 
     df.rename(columns = {'floor':'floor_old'}, inplace = True)  # rename current floor column
     df.drop(['floor_old'], axis=1, inplace=True)  # delete floor_old column
@@ -52,10 +53,12 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
     df["bathRoom"]=pd.to_numeric(df["bathRoom"], errors='coerce')
     df["constructionTime"]=pd.to_numeric(df["constructionTime"], errors='coerce')
     df["floor"]=pd.to_numeric(df["floor"], errors='coerce')
-    df["floorType"]=pd.to_numeric(df["floorType"], errors='coerce')
 
 
     #Write csv
     df.to_csv(path_or_buf='data/01_pre_cleaned.csv', sep=';', index=False)
 
     return df
+
+#df= pd.read_csv("C:\\Users\\beatb\\OneDrive\\Documents\\5. Semester\\Maschine_Learning\\Projekt\\fhgr-3-s-ml-project-group-2\\beat\\beijing_original.csv",encoding="gbk", low_memory=False)
+#x=pre_cleaning(df)
