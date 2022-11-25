@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
     
@@ -22,31 +23,34 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
     df=df.drop(df[df.drop(['buildingType', 'communityAverage'], axis=1).isnull().any(axis=1)].index, axis=0)
 
 
-    #traslate chinese and fill the translation in a new column
-    translationDict = {}
-    translationDict["高 "] = "High"
-    translationDict["中 "] = "Medium"
-    translationDict["底 "] = "Bottom"
-    translationDict["低 "] = "Low"
-    translationDict["顶 "] = "Top"
-    translationDict["未知 "] = "Unknown"
-    translationDict["钢混结构"] = "Steel-composite construction"
-    translationDict["混合结构"] = "Hybrid structure"
-
-    original_data['floorType'] = original_data['floor'].str.replace('\d+', '')  # extract chinese characters (everything but numbers)
-    original_data["floor"] = original_data.floor.str.extract('(\d+)')  # extract only numbers
-
-    for index_label, row_series in original_data.iterrows():
-        # For each row update the 'floorType' value to it's translation
-        original_data.at[index_label , 'floorType'] = translationDict[row_series['floorType']]
-
-
-    df.rename(columns = {'floor':'floor_old'}, inplace = True)  # rename current floor column
-    df.drop(['floor_old'], axis=1, inplace=True)  # delete floor_old column
-    df.insert(0, "floor", original_data["floor"])  # add new floor column to df
-    df.insert(0, "floorType", original_data["floorType"])  # add new floorType column to df
-
-
+    df['floorType'] = df['floor'].copy()
+    def mapper(x):
+        splitted = x.split(' ')
+        finalStr = x
+        if len(splitted) == 2:
+            finalStr = splitted[0]
+        translations = {
+            '中': 'middle',
+            '低': 'low',
+            '底': 'bottom',
+            '未知': 'Unknown',
+            '混合结构': 'hybrid',
+            '钢混结构': 'steel',
+            '顶': 'top',
+            '高': 'high'
+        }
+        return translations[finalStr]
+        
+    df['floorType'] = df['floorType'].apply(mapper)
+    def mapper(x):
+        splitted = x.split(' ')
+        if len(splitted) == 2:
+            return splitted[1]
+        else:
+            return np.nan
+    df['floor'] = df['floor'].apply(mapper)
+    df['floor'] = df['floor'].astype(int)
+    
     #String to cumeric
     df["livingRoom"]=pd.to_numeric(df["livingRoom"], errors='coerce')
     df["drawingRoom"]=pd.to_numeric(df["drawingRoom"], errors='coerce')
