@@ -20,10 +20,26 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 
 def modelling(train: pd.DataFrame, test: pd.DataFrame) -> pd.DataFrame:
-
-    X_train = train.drop(['totalPrice'], axis=1)
+    columns = [
+        'square', 
+        'livingRoom', 
+        'drawingRoom', 
+        'kitchen', 
+        'bathRoom', 
+        'floor', 
+        'buildingType', 
+        'renovationCondition', 
+        'buildingStructure', 
+        'elevator', 
+        'fiveYearsProperty',
+        'subway',
+        'district',
+        'floorType',
+        'constructionTimePeriod'
+    ]
+    X_train = train[columns]
     y_train = train['totalPrice']
-    X_test = test.drop(['totalPrice'], axis=1)
+    X_test = test[columns]
     y_test = test['totalPrice']
 
     # scaling data to standard normalisation and then use stochastig gradient descent regressor on pipe

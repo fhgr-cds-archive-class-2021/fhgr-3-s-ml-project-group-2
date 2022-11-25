@@ -1,4 +1,4 @@
-import pandas as pd
+import joblib
 
-def deployment(model: pd.DataFrame) -> pd.DataFrame:
-    return None
+def deployment(model):
+    #joblib.dump(model, "data/04_model.joblib")
