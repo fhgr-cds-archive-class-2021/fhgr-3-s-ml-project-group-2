@@ -24,7 +24,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
-import xgboost
 
 def pre_processing(pre_cleaned: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
 
