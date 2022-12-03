@@ -43,6 +43,7 @@ def modelling(train: pd.DataFrame, test: pd.DataFrame) -> pd.DataFrame:
     ]
 
     stacking_regressor = StackingRegressor(estimators=estimators, final_estimator=RidgeCV(), n_jobs=-1)
+    stacking_regressor.fit(X_train,y_train)
 
     y_pred = stacking_regressor.predict(X_test) # Make predictions using the testing set
     
