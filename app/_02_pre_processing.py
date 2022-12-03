@@ -10,7 +10,7 @@ from scipy.stats import shapiro
 from scipy.stats import randint
 from feature_engine.imputation import MeanMedianImputer
 from feature_engine.imputation import CategoricalImputer
-from feature_engine.encoding import CountFrequencyEncoder
+from feature_engine.encoding import CountFrequencyEncoder, RareLabelEncoder
 from feature_engine.encoding import OneHotEncoder as fe_OneHotEncoder
 from feature_engine.selection import DropConstantFeatures, DropDuplicateFeatures
 from feature_engine.selection import DropCorrelatedFeatures, SmartCorrelatedSelection
@@ -26,7 +26,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 
 def pre_processing(pre_cleaned: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-
     # define pre_cleaned df
     df = pre_cleaned
     if "Unnamed: 0" in df.columns:
@@ -48,37 +47,32 @@ def pre_processing(pre_cleaned: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFram
         test_size=0.3,
         random_state=6)
 
-
     # define categorical columns and set datatype
-    categoricalColumns = ["floorType", "buildingType", "renovationCondition", "buildingStructure", "constructionTimePeriod"]
+    categoricalColumns = ["floorType", "buildingType", "renovationCondition", "buildingStructure", "constructionTimePeriod", "town", "placeRank"]
     for category in categoricalColumns:  # change dtype of categorical columns to object dtype for later processing
-        X_train[category] = X_train[category].astype(str)
-        X_test[category] = X_test[category].astype(str)
+        def numeric_to_string_mapper(x):
+            if type(x) == float or type(x) == int:
+                if x is not np.nan:
+                    return str(x)
+                else:
+                    return np.nan
+            return x
+        X_train[category] = X_train[category].apply(numeric_to_string_mapper)
+        X_test[category] = X_test[category].apply(numeric_to_string_mapper)
         X_train[category] = X_train[category].astype("object")
         X_test[category] = X_test[category].astype("object")
 
-
     # missing value imputation pipeline
-    missingValuePipe = Pipeline([  # Define the pipeline
-        ('median_imputer', MeanMedianImputer(imputation_method='median', variables=['communityAverage'])),
-        ('frequent_category_imputer', CategoricalImputer(imputation_method='frequent', variables=['buildingType', 'constructionTimePeriod']))
+    transformationsPipe = Pipeline([  # Define the pipeline
+        ('median_imputer', MeanMedianImputer(imputation_method='median', variables=['communityAverage', 'districtPopulation', 'districtArea'])),
+        ('frequent_category_imputer', CategoricalImputer(imputation_method='frequent', variables=['buildingType', 'constructionTimePeriod', 'town', 'placeRank'])),
+        ('rare_label_encoder', RareLabelEncoder(n_categories=2, variables=categoricalColumns)),
+        ('count_frequency_encoder', CountFrequencyEncoder(encoding_method='count', variables=categoricalColumns)),
     ])
-    
-    missingValuePipe.fit(X_train)  # Fit the pipeline
-    X_train = missingValuePipe.transform(X_train)  # Save imputed data to original X_train
-    X_test = missingValuePipe.transform(X_test)  # Save imputed data to original X_test
 
-
-    # label encoding pipeline    
-    countEncoder = CountFrequencyEncoder(  # Define the pipeline
-        encoding_method='count',  # count -> number of observations per category
-        variables=categoricalColumns
-    )
-
-    countEncoder.fit(X_train)  # Fit the pipeline
-    X_train = countEncoder.transform(X_train)  # Save encoded data to original X_train
-    X_test = countEncoder.transform(X_test)  # Save encoded data to original X_test
-
+    transformationsPipe.fit(X_train)
+    X_train = transformationsPipe.transform(X_train)
+    X_test = transformationsPipe.transform(X_test)
 
     # create final preprocessed df
     trainDF = X_train.copy()

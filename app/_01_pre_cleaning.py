@@ -42,6 +42,7 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
         return translations[finalStr]
         
     df['floorType'] = df['floorType'].apply(mapper)
+
     def mapper(x):
         splitted = x.split(' ')
         if len(splitted) == 2:
@@ -57,7 +58,7 @@ def pre_cleaning(original_data: pd.DataFrame) -> pd.DataFrame:
     df["bathRoom"]=pd.to_numeric(df["bathRoom"], errors='coerce')
     df["constructionTime"]=pd.to_numeric(df["constructionTime"], errors='coerce')
     df["floor"]=pd.to_numeric(df["floor"], errors='coerce')
-
+    df["buildingType"]=pd.to_numeric(df["buildingType"], errors='coerce')
 
     #Write csv
     df.to_csv(path_or_buf='data/01_pre_cleaned.csv', sep=';', index=False)
