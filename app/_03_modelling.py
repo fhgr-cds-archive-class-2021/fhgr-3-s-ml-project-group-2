@@ -18,49 +18,31 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
+from xgboost import XGBRegressor
 
 def modelling(train: pd.DataFrame, test: pd.DataFrame) -> pd.DataFrame:
-    columns = [
-        'square', 
-        'livingRoom', 
-        'drawingRoom', 
-        'kitchen', 
-        'bathRoom', 
-        'floor', 
-        'buildingType', 
-        'renovationCondition', 
-        'buildingStructure', 
-        'elevator', 
-        'fiveYearsProperty',
-        'subway',
-        'district',
-        'floorType',
-        'constructionTimePeriod'
-    ]
+    columns = train.columns.tolist()
+    columns.remove("communityAverage")
+    columns.remove("totalPrice")
     X_train = train[columns]
     y_train = train['totalPrice']
     X_test = test[columns]
     y_test = test['totalPrice']
 
-    # scaling data to standard normalisation and then use stochastig gradient descent regressor on pipe
-    pipe = make_pipeline(
-        StandardScaler(), 
-        SGDRegressor(
-            alpha=0.0001, 
-            loss='squared_loss', 
-            penalty='l1'
-        )
-    )
-
-    # Ensemble learning with SGDRegressor, RandomForest and Gradient Boosting Regressor
+    # Ensemble learning with XGBRegressor, RandomForest and Gradient Boosting Regressor
     estimators = [
-        ("pipe", pipe),
-        ("RandomFR", RandomForestRegressor(n_jobs=-1)),
+        ("xgboost regressor", XGBRegressor(
+            booster="dart",
+            eta=0.2,
+            max_depth=9,
+            min_child_weight=2,
+            n_jobs=-1
+        )),
+        ("RandomFR", RandomForestRegressor(n_estimators=200, n_jobs=-1)),
         ("Gradient Boosting", HistGradientBoostingRegressor()),
     ]
 
     stacking_regressor = StackingRegressor(estimators=estimators, final_estimator=RidgeCV(), n_jobs=-1)
-    stacking_regressor.fit(X_train,y_train)
 
     y_pred = stacking_regressor.predict(X_test) # Make predictions using the testing set
     
