@@ -1,5 +1,6 @@
 # data handling
 import pandas as pd
+import joblib
 # machine learning
 from sklearn.ensemble import StackingRegressor
 from sklearn.linear_model import RidgeCV
@@ -30,5 +31,7 @@ def modelling(train: pd.DataFrame) -> pd.DataFrame:
 
     stacking_regressor = StackingRegressor(estimators=estimators, final_estimator=RidgeCV(), n_jobs=-1)
     stacking_regressor.fit(X_train,y_train)
+
+    joblib.dump(stacking_regressor, "data/04_model.joblib", compress=3)
 
     return stacking_regressor
