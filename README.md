@@ -1,5 +1,5 @@
 # Machine Learning Project - FHGR - CDS106
-## Goal of project
+## Goal of the project
 We have chosen following dataset from [kaggle](https://www.kaggle.com/) for our project: [Housing price in Beijing](https://www.kaggle.com/datasets/ruiqurm/lianjia). More informations about the dataset can be found on kaggle.
 The goal of this project is to answer following research question:
 - Can we predict the price of a Beijing residential property based on property characteristics?
