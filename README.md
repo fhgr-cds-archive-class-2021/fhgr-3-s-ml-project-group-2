@@ -42,7 +42,7 @@ Following subscripts are then triggered:
   - The dataset from the previous step is used for the machine learning algorithm:
     - Model: Stacking Regressor
 - [/app/_04_interpretation.py](./app/_04_interpretation.py)
-  - The machine learning model gets analyzed (scores)
+  - The machine learning model gets analyzed (scores and other important metrics)
 
 In every step a pandas dataframe was used to handle the data.
 

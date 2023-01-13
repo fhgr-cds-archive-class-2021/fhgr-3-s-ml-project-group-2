@@ -1,13 +1,13 @@
 # Introduction
-In this project we look into the housing prices of Beijing.
-In the "analysis.ipynb" jupyter notebook we take a first look at the data.
+The goal of this project is to predict the housing prices of houses located in Beijing.
+In the [analysis.ipynb](analysis.ipynb) jupyter notebook we take a first look at the data, try some preprocessing and simple machine learning methods.
 
 # Data analysis
-In this paragraph the analysis of the data gets documented.
+In this paragraph informations about the dataset can be found.
 
-The dataset used for this project is available on kaggle: [Link](https://www.kaggle.com/datasets/ruiqurm/lianjia)
+The dataset used for this project is available on kaggle: [Link](https://www.kaggle.com/datasets/ruiqurm/lianjia).
 
-## Column details
+## Column details (src: [kaggle](https://www.kaggle.com/datasets/ruiqurm/lianjia))
 - url: the url which fetches the data
 - id: the id of transaction
 - Lng: and Lat coordinates, using the BD09 protocol.
@@ -28,14 +28,16 @@ The dataset used for this project is available on kaggle: [Link](https://www.kag
 - renovationCondition: including other( 1 ), rough( 2 ),Simplicity( 3 ), hardcover( 4 )
 - buildingStructure: including unknow( 1 ), mixed( 2 ), brick and wood( 3 ), brick and concrete( 4 ),steel( 5 ) and steel-concrete composite ( 6 ).
 - ladderRatio: the proportion between number of residents on the same floor and number of elevator of ladder. It describes how many ladders a resident have on average.
-elevator have ( 1 ) or not have elevator( 0 )
+- elevator have ( 1 ) or not have elevator( 0 )
 - fiveYearsProperty: if the owner have the - property for less than 5 years,
 
 ## Column 'floor'
 This column contains two informations -> one numeric value and chinese characters.
-We have to investiagte and split thoose two informations.
+We have to investiagte and split these two informations.
 
 # Visualizations
 In this paragraph we look at some visualizations of the data.
-## Map visualization of price
+## Map visualization of price (Plot by Raphael)
 ![Map visualization for price](content/Better_Crop_Plot.png)
+
+> More informations about the project can be found in the [README.md](../README.md) file
