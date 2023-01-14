@@ -4,6 +4,7 @@ We have chosen following dataset from [kaggle](https://www.kaggle.com/) for our 
 The goal of this project is to answer following research question:
 - Can we predict the price of a Beijing residential property based on property characteristics?
 
+The original dataset is stored here: [beijing_original.csv](/app/data/beijing_original.csv) or available on the kaggle page (link above).
 
 ## Project members
 - André Glatzl (personal folder: [/andre](./andre))
