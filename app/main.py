@@ -21,4 +21,4 @@ train, test = pre_processing(pre_cleaned)  # train and test variables contain a 
 #model = modelling(train)
 model = joblib.load('data/04_model.joblib')
 
-interpretation(model, test)
+interpretation(model, train, test)

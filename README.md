@@ -14,7 +14,7 @@ The original dataset is stored here: [beijing_original.csv](/app/data/beijing_or
 
 
 ## Project organisation
-Every project mebmer experimented and explorated the dataset in his own folder (as linked above).
+Every project member experimented and explorated the dataset in his own folder (as linked above).
 The [/nominatim](./nominatim) folder is used for the pre population step in our workflow described below.
 Then we combined our collected knowledge and created the [/app](./app) folder with our **final result and ML-model**.
 
@@ -45,8 +45,8 @@ Following subscripts are then triggered:
 - [/app/_04_interpretation.py](./app/_04_interpretation.py)
   - The machine learning model gets analyzed (scores and other important metrics)
 
-In every step a pandas dataframe was used to handle the data.
+In every step a pandas dataframe was returned from the subscripts in order to guarantee modularity.
 
 After every step a new csv gets created and stored in the [/app/data](./app/data) folder. The ML-model is stored in the [/app/data](./app/data) folder aswell.
 
-This helpes in the development process because a dataset of every substep is available and therefore it's not necessary to always run the whole workflow to make changes on a specific step or file.
+This helpes in the development process because a dataset of every substep is available and therefore it's not necessary to always run the whole workflow to make changes on a specific step or file. Also, this way of working allowed us to encapsulate our work from each other and reduce interdependence during development.
