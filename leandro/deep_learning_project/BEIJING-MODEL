@@ -63,37 +63,28 @@ Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 	9 -> 12
 	10 -> 12
 	11 -> 12
-	8 -> 13
-	9 -> 13
-	10 -> 13
-	11 -> 13
-	8 -> 14
-	9 -> 14
-	10 -> 14
-	11 -> 14
-	8 -> 15
-	9 -> 15
-	10 -> 15
-	11 -> 15
 	subgraph cluster_2 {
 		color=white
+		12 [label="Dropout
+Rate: 0.25" fillcolor="#f39c12" fontcolor=black shape=Mcircle style=filled]
+	}
+	12 -> 13
+	12 -> 14
+	12 -> 15
+	12 -> 16
+	subgraph cluster_3 {
+		color=white
 		rank=same
-		111111 [label="Units: 4
+		121212 [label="Units: 4
 Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
-		12 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 		13 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 		14 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 		15 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
+		16 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 	}
-	12 -> 16
-	13 -> 16
-	14 -> 16
-	15 -> 16
-	subgraph cluster_3 {
-		color=white
-		16 [label="Dropout
-Rate: 0.25" fillcolor="#f39c12" fontcolor=black shape=Mcircle style=filled]
-	}
+	13 -> 17
+	14 -> 17
+	15 -> 17
 	16 -> 17
 	subgraph cluster_output {
 		161616 [label="Output Units: 1
